@@ -1,0 +1,55 @@
+name: heuristic
+on: workflow_dispatch
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - '3.11'
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          apt install -y adduser base-files bash bash-completion cloud-init command-not-found cron debconf distro-info-data e2fsprogs fuse3 gettext-base hdparm keyutils libattr1:amd64 libaudit-common libc-bin libc6:amd64 libgmp10:amd64 libmagic-mgc libmagic1:amd64 libmecab2:amd64 libpam-runtime libpcre2-8-0:amd64 libpython3.11-minimal:amd64 libpython3.11-stdlib:amd64 libsensors-config libtirpc-common locales login logrotate lsb-release ltrace mailcap man-db media-types mercurial-common multipath-tools nano ncurses-base netbase nftables openssl overlayroot procps python3-apt python3-attr python3-automat python3-babel python3-bcrypt python3-blinker python3-chardet python3-click python3-colorama python3-commandnotfound python3-configobj python3-constantly python3-cryptography python3-dbus python3-debian python3-distro python3-distro-info python3-gi python3-hamcrest python3-httplib2 python3-hyperlink python3-idna python3-importlib-metadata python3-incremental python3-jeepney python3-jinja2 python3-json-pointer python3-jsonpatch python3-jsonschema python3-jwt python3-keyring python3-launchpadlib python3-lazr.restfulclient python3-lazr.uri python3-magic python3-markupsafe python3-minimal python3-more-itertools python3-netifaces:amd64 python3-oauthlib python3-openssl python3-packaging python3-parted python3-pexpect python3-pip python3-ptyprocess python3-pyasn1 python3-pyasn1-modules python3-pygments python3-pyparsing python3-pyrsistent:amd64 python3-secretstorage python3-serial python3-service-identity python3-setuptools python3-six python3-systemd python3-twisted python3-tz python3-wadllib python3-wheel python3-yaml python3-zipp python3-zope.interface python3.11-minimal rsyslog screen sosreport ssh-import-id sudo tar tzdata ubuntu-pro-client ucf ufw unixodbc-common usb-modeswitch walinuxagent wget
+          pip install curl_cffi==0.10.0
+      - run: |
+          python3 ./devscripts/install_deps.py --include test --include curl-cffi
+      - run: |
+          python3 -m yt_dlp -v || true  # Print debug head
+      - run: |
+          python3 ./devscripts/run_tests.py --pytest-args '--reruns 2 --reruns-delay 3.0' core
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    env:
+      ACCEPT_EULA: Y
+      BOOTSTRAP_HASKELL_NONINTERACTIVE: '1'
+      COLUMNS: '254'
+      DEBIAN_FRONTEND: noninteractive
+      DOTNET_MULTILEVEL_LOOKUP: '0'
+      DOTNET_NOLOGO: '1'
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1'
+      HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS: '3650'
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOSTNAME: pop-os
+      ImageOS: ubuntu22
+      ImageVersion: 20250622.1.0
+      LC_CTYPE: C.UTF-8
+      LINES: '62'
+      NO_PROXY: 127.0.0.1,foo.bar
+      POWERSHELL_DISTRIBUTION_CHANNEL: GitHub-Actions-ubuntu22
+      PYTEST_VERSION: 8.4.1
+      SHLVL: '1'
+      TERM: xterm
+      YTDLP_NO_LAZY_EXTRACTORS: 'true'
+      _PYI_LINUX_PROCESS_NAME: sawra
+      _PYI_PARENT_PROCESS_LEVEL: '1'
+      __yt_dlp_var: expanded
+      yt_dlp_EXPATH_PATH: expanded

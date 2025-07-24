@@ -1,0 +1,25 @@
+name: model
+
+on: workflow_dispatch
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          pip install autopep8 brotli brotlicffi build certifi cffi curl-cffi hatchling mutagen pip pre-commit pycryptodomex pyinstaller pytest pytest-randomly pytest-rerunfailures pytest-xdist requests ruff secretstorage setuptools urllib3 websockets wheel yt-dlp
+
+      - name: Run tests
+        run: |
+          python3 ./devscripts/install_deps.py --include test --include curl-cffi
+          python3 -m yt_dlp -v || true  # Print debug head
+          python3 ./devscripts/run_tests.py --pytest-args '--reruns 2 --reruns-delay 3.0' core

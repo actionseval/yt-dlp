@@ -1,0 +1,33 @@
+name: hybrid
+
+on: workflow_dispatch
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - '3.11'
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          pip install curl_cffi==0.10.0
+      - run: |
+          python3 ./devscripts/install_deps.py --include test --include curl-cffi
+      - run: |
+          python3 -m yt_dlp -v || true  # Print debug head
+      - run: |
+          python3 ./devscripts/run_tests.py --pytest-args '--reruns 2 --reruns-delay 3.0' core
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    env:
+      YTDLP_NO_LAZY_EXTRACTORS: 'true'
