@@ -29,28 +29,28 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
-    env:
-      ACCEPT_EULA: Y
-      BOOTSTRAP_HASKELL_NONINTERACTIVE: '1'
-      COLUMNS: '254'
-      DEBIAN_FRONTEND: noninteractive
-      DOTNET_MULTILEVEL_LOOKUP: '0'
-      DOTNET_NOLOGO: '1'
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1'
-      HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS: '3650'
-      HOMEBREW_NO_AUTO_UPDATE: '1'
-      HOSTNAME: pop-os
-      ImageOS: ubuntu22
-      ImageVersion: 20250622.1.0
-      LC_CTYPE: C.UTF-8
-      LINES: '62'
-      NO_PROXY: 127.0.0.1,foo.bar
-      POWERSHELL_DISTRIBUTION_CHANNEL: GitHub-Actions-ubuntu22
-      PYTEST_VERSION: 8.4.1
-      SHLVL: '1'
-      TERM: xterm
-      YTDLP_NO_LAZY_EXTRACTORS: 'true'
-      _PYI_LINUX_PROCESS_NAME: sawra
-      _PYI_PARENT_PROCESS_LEVEL: '1'
-      __yt_dlp_var: expanded
-      yt_dlp_EXPATH_PATH: expanded
+    # env:
+    #   ACCEPT_EULA: Y
+    #   BOOTSTRAP_HASKELL_NONINTERACTIVE: '1'
+    #   COLUMNS: '254'
+    #   DEBIAN_FRONTEND: noninteractive
+    #   DOTNET_MULTILEVEL_LOOKUP: '0'
+    #   DOTNET_NOLOGO: '1'
+    #   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1'
+    #   HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS: '3650'
+    #   HOMEBREW_NO_AUTO_UPDATE: '1'
+    #   HOSTNAME: pop-os
+    #   ImageOS: ubuntu22
+    #   ImageVersion: 20250622.1.0
+    #   LC_CTYPE: C.UTF-8
+    #   LINES: '62'
+    #   NO_PROXY: 127.0.0.1,foo.bar
+    #   POWERSHELL_DISTRIBUTION_CHANNEL: GitHub-Actions-ubuntu22
+    #   PYTEST_VERSION: 8.4.1
+    #   SHLVL: '1'
+    #   TERM: xterm
+    #   YTDLP_NO_LAZY_EXTRACTORS: 'true'
+    #   _PYI_LINUX_PROCESS_NAME: sawra
+    #   _PYI_PARENT_PROCESS_LEVEL: '1'
+    #   __yt_dlp_var: expanded
+    #   yt_dlp_EXPATH_PATH: expanded
